@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 
     {% block content %}
-
+<div class="container-all">
     <div class="orb3"></div>
+  
+    <h3 class="user_playlists">Your Playlists Have Been Collected Here</h3>
+    <h4 class="user_playlists2">make your selection below....</h4>
+    <div class="user_playlists_container">
+        <ul class = 'user_playlists_list_item'>
+            <form method="POST" action="{{ url_for('open_playlist') }}" name="playlist_selection">
+            {% for name in playlist_names %}
+            <li class="item">
+            <input class = 'playlists_listed' type="checkbox" id="{{name}}" name="playlist_selection" value="{{name}}">
+            <label class = 'playlists_listed_' for="{{name}}">{{name}}</label>
+            </li>
+            {% endfor %}
 
-    <h3 class="user_playlists">User Playlists:</h3>
-    <div class="user_playlists_background">
-    <div class="user_playlists_scroll">
-        <div class="user_playlists_obj">
-            <ul class = 'playlists_listed_ul'>
-                <form method="POST" action="{{ url_for('open_playlist') }}" name="playlist_selection">
+            <input id="submit_btn" type="submit" value="Submit">
+            </form>
+        </ul>
 
-                {% for name in playlist_names %}
-                <input class = 'playlists_listed' type="checkbox" id="{{name}}" name="playlist_selection" value="{{name}}">
-                <label class = 'playlists_listed' for="{{name}}">{{name}}</label>
-                <br>
-                {% endfor %}
-
-            </ul>
-        </div>
+        
+    
     </div>
-    </div>
 
-                <input id="submit_btn" type="submit" value="Submit" style="top: 160px; left: 128px;">
-                </form>
+</div>
 
         {% endblock %}

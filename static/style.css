@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); /* importing the poppins font /*
 
 
 /* setting style for whole website */
@@ -82,13 +82,14 @@ h3 { /* setting font color/position */
 }
 
 .orb3{
+    grid-column: 2;
+    grid-row: 1;
     align-items: center;
     animation: roll-in 2s linear forwards;
     width: 300px;
     height: 300px;
-    margin: auto;
-    margin-left: 650px;
-    margin-top: 140px;
+    left: 300px;
+    top: 140px;
     border-radius: 50%;
     position: relative;
     box-shadow:
@@ -314,43 +315,77 @@ h3 { /* setting font color/position */
 
 /* styles 'user-playlists' page */
 
-.user_playlists_background{
-    padding: 10px;
-    width: 600px;
-    margin: 10% 20px;
-    border: 1px solid #6200EE;
-    background: #212124;
+.container-all{
+    display:grid
+}
+
+.user_playlists_container{
+    width: 800px;
+    border-radius: 8px;
+    margin: 220px 70px;
+    border: 2px solid #6200EE;
+    background: #FFFF;
     border-radius: 7px;
     outline: none;
     position: absolute;
-    top: 100px; 
-    left: 130px;
+    left: 50px;
+    grid-column: 1;
+    grid-row: 1;
 }
 
-.user_playlists_scroll{
-    width: 580px;
-    background: #212124;
-    height: 350px;
-    overflow: hidden;
-    overflow-y: scroll;
+.user_playlists_list_item{
+    position: relative;
+    background-color: #FFFF;
+    margin-top: 15px;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 5px 10px #B3B3B3;
+    justify-content: space-between;
 }
 
-.user_playlists_obj{
-    color: white;
-    font-family: "poppins";
-    font-size: 15px;
-    padding: 15px;
-    padding-left: 0;
-    box-sizing: border-box;
-
+.user_playlists_list_item .item {
+    height: 50px;
+    list-style: none;
+    cursor: pointer;
+    color: #6200EE;
+    transition: 0.5s;
+    padding: 0 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    justify-content: space-between;
+    font-weight: bold;
 }
 
+.user_playlists_list_item .item:hover{
+    background-color: #6200EE;
+    color:white;
+}
+
+
+.item .playlists_listed{
+    height: 16px;
+    display: inline-block;
+    align-items:center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid black;
+    transition: all 0.3s ease-in-out;
+}
 .user_playlists{
     position: absolute;
-    top: 185px; 
-    left: 150px;
+    top: 145px; 
+    left: 115px;
+    color: white;
 }
 
-.playlists_listed{
-    font-size: 18px;
+.user_playlists2{
+    position: absolute;
+    top: 180px; 
+    left: 115px;
+    color: white;
 }
+
