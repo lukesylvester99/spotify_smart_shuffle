@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+    {% block content %}
+
+    <div class="orb3"></div>
+
+    <h3 class="user_playlists">User Playlists:</h3>
+    <div class="user_playlists_background">
+    <div class="user_playlists_scroll">
+        <div class="user_playlists_obj">
+            <ul class = 'playlists_listed_ul'>
+                <form method="POST" action="{{ url_for('open_playlist') }}" name="playlist_selection">
+
+                {% for name in playlist_names %}
+                <input class = 'playlists_listed' type="checkbox" id="{{name}}" name="playlist_selection" value="{{name}}">
+                <label class = 'playlists_listed' for="{{name}}">{{name}}</label>
+                <br>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+    </div>
+
+                <input id="submit_btn" type="submit" value="Submit" style="top: 160px; left: 128px;">
+                </form>
+
+        {% endblock %}

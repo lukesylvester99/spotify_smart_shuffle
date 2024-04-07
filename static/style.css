@@ -1,0 +1,356 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+
+/* setting style for whole website */
+body {
+    background-color: #212124; 
+    margin-left: 20px;
+    font-family: "poppins";
+}
+
+::-webkit-scrollbar{
+    width: thin;
+    background: #212124;
+    border-radius: 100vw;
+    margin-block: 1em;
+    border: 1px solid #6200EE;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6200EE;
+    border-radius: 100vw;
+
+}
+
+::-webkit-scrollbar::hover{
+    cursor: pointer;
+}
+
+h1 { /* setting font color/position */
+    align-items: center;
+    color: white;
+}
+
+h3 { /* setting font color/position */
+    align-items: center;
+    color: white;
+}
+
+
+/* animates spinning orb */
+.orb{
+    align-items: center;
+    animation: spin 2s linear infinite;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-left: 650px;
+    margin-top: 140px;
+    border-radius: 50%;
+    position: relative;
+    box-shadow:
+        inset 0 0 50px #fff,
+        inset 20px 0 60px violet,
+        inset -20px 0 60px blue,
+        inset 20px 0 300px violet,
+        inset -20px 0 300px blue,
+        0 0 50px #fff,
+        -10px 0 60px violet,
+        10px 0 60px blue;
+}
+
+.orb2{
+    align-items: center;
+    animation: squish 2s linear forwards, roll-fade 2s linear forwards;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-left: 650px;
+    margin-top: 140px;
+    border-radius: 50%;
+    position: relative;
+    box-shadow:
+        inset 0 0 50px #fff,
+        inset 20px 0 60px violet,
+        inset -20px 0 60px blue,
+        inset 20px 0 300px violet,
+        inset -20px 0 300px blue,
+        0 0 50px #fff,
+        -10px 0 60px violet,
+        10px 0 60px blue;
+}
+
+.orb3{
+    align-items: center;
+    animation: roll-in 2s linear forwards;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-left: 650px;
+    margin-top: 140px;
+    border-radius: 50%;
+    position: relative;
+    box-shadow:
+        inset 0 0 50px #fff,
+        inset 20px 0 60px violet,
+        inset -20px 0 60px blue,
+        inset 20px 0 300px violet,
+        inset -20px 0 300px blue,
+        0 0 50px #fff,
+        -10px 0 60px violet,
+        10px 0 60px blue;
+}
+
+@keyframes spin { /* creates 'spin' animation */
+    0% { top: 20px; }
+    25% { top: 22px; }
+    50% { top: 30px; }
+    75% { top: 27px; }
+    100% {transform: rotate(360deg); top: 20px;}
+
+} 
+
+@keyframes squish { /* creates 'roll' animation */
+        from, to { transform: scale(1, 1); }
+        25% { transform: scale(0.9, 1.1); }
+        50% { transform: scale(1.1, 0.9); }
+        75% { transform: scale(0.95, 1.05); }
+}
+
+@keyframes roll-fade {
+    0% {
+        opacity: 1;
+        transform: translateX(0px) rotate(0deg);
+      }
+    100% {
+        opacity: 0;
+        transform: translateX(100%) rotate(120deg);
+    
+} }
+
+@keyframes roll-in {
+    0% {
+      transform-origin: left bottom;
+      transform: rotate(-90deg);
+      opacity: 0;
+    }
+    100% {
+        transform-origin: left bottom;
+        transform: rotate(0);
+        opacity: 1;
+      }
+    }
+ 
+
+#home_button { /* styles button on home page */
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 12px;
+    background-color: #818181;
+}
+
+/* creates glowing button effect */
+.btn{
+    margin-top: 20px;
+    padding: 20px 35px;
+    border: none;
+    outline: none;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 12px;
+}
+
+.btn::after {
+    content:"";
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #B3B3B3;
+    left:0;
+    top: 0;
+    border-radius: 10px;
+}
+
+.btn::before{
+    content: "";
+    background: linear-gradient(
+        45deg,
+        #ff0000, #ff7300, #fffb00, #48ff00,
+        #00FFd5, #002bff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 600%;
+    z-index: -1;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    filter: blur(8px);
+    animation:glowing 20s linear infinite;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+    opacity: 0;}
+
+@keyframes glowing {
+    0% {background-position: 0 0 ;}
+    50% {background-position: 400% 0;}
+    100% {background-position: 0 0;}
+}
+
+.btn:focus:before {
+    opacity: 1;
+}
+
+.btn:focus:after {
+    background: transparent;
+}
+
+.btn:focus {
+    color: #000;
+    font-weight: bold;
+}
+
+
+/* styles 'search' page */
+.search_user {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: baseline;
+    color: white;
+}
+
+#user_name_text {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #6200EE;
+    background: #121212;
+    border-radius: 7px;
+    outline: none;
+    color: white;
+    font-size: 1em;
+
+}
+
+.search_user span{
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: #6200EE;
+    text-transform: capitalize;
+    transition: 0.5s;
+}
+
+
+
+#user_name_text:valid ~span,
+#user_name_text:focus ~span
+{
+    color: #6200EE;
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background-color: #121212;
+    border-left: 1px solid #6200EE;
+    border-right: 1px solid #6200EE;
+
+
+}
+
+#user_id_ex1{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+    padding-top: 100px;
+}
+
+#user_id_ex2{
+    font-size: 18px;
+
+    font-weight: bold;
+    color: white;
+}
+
+#user_id_ex3{
+    font-size: 15px;
+    font-weight: bold;
+    color: lightgray;
+}
+
+#submit_btn{
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 7px;
+    background-color: #212124;
+    border: 1px solid #6200EE;
+}
+
+#submit_btn:active{
+    background-color: #6200EE;
+}
+
+
+/* styles 'user-playlists' page */
+
+.user_playlists_background{
+    padding: 10px;
+    width: 600px;
+    margin: 10% 20px;
+    border: 1px solid #6200EE;
+    background: #212124;
+    border-radius: 7px;
+    outline: none;
+    position: absolute;
+    top: 100px; 
+    left: 130px;
+}
+
+.user_playlists_scroll{
+    width: 580px;
+    background: #212124;
+    height: 350px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.user_playlists_obj{
+    color: white;
+    font-family: "poppins";
+    font-size: 15px;
+    padding: 15px;
+    padding-left: 0;
+    box-sizing: border-box;
+
+}
+
+.user_playlists{
+    position: absolute;
+    top: 185px; 
+    left: 150px;
+}
+
+.playlists_listed{
+    font-size: 18px;
+}

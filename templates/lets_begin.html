@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+    {% block content %}
+    <div class="orb2"></div>
+
+    <h1>Welcome to Smart Shuffle,</h1>
+    <h3>the smart way to listen</h3>
+
+    <button id="home_button" ">Lets begin</button>
+
+    <script>
+    // Wait for the 2s (in milliseconds) before navigating to "/search"
+    setTimeout(function() {
+        window.location.href = "/login";
+    }, 2000);
+
+    </script> 
+    {% endblock %}
+
+ </html>

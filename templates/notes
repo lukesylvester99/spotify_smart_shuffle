@@ -1,0 +1,10 @@
+    <button class="btn" onclick="add_delay()">Lets begin</button>
+
+    <script>
+    function add_delay() {
+      // Set a delay of 1.5 seconds (1500 milliseconds), so that you can see the button animation
+      setTimeout(function() {
+        window.location.href="{{ url_for('search') }}";
+      }, 1500);
+    }
+    </script> 
