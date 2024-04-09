@@ -3,12 +3,17 @@
     <!-- Opens playlist that was selected -->
     {% block content %}
 
-    <h1>{{playlist_selection}}</h1>
-
-    <ul style="color: white;">
-        {% for track in track_names %}
-            <li>{{track}}</li>
-        {% endfor %}
-    </ul>
-
+    <div class="container_all_open_playlists">
+        <h1 id="title_open_playlist">Your Songs From, {{playlist_selection}}</h1>
+    <div class="container_color"></div>
+        <div class="open_playlists_container">
+            <ul class = 'open_playlists_list_item'>
+                {% for track in track_names %}
+                    <li class="item">
+                    <span type="text">{{track}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
         {% endblock %}

@@ -51,13 +51,13 @@ h3 { /* setting font color/position */
     position: relative;
     box-shadow:
         inset 0 0 50px #fff,
-        inset 20px 0 60px violet,
-        inset -20px 0 60px blue,
-        inset 20px 0 300px violet,
-        inset -20px 0 300px blue,
+        inset 20px 0 60px #6200EE,
+        inset -20px 0 60px rgba(255, 0, 255, 0.591),
+        inset 20px 0 300px #6200EE,
+        inset -20px 0 300px rgba(255, 0, 255, 0.591),
         0 0 50px #fff,
-        -10px 0 60px violet,
-        10px 0 60px blue;
+        -10px 0 60px #6200EE,
+        10px 0 60px rgba(255, 0, 255, 0.591);
 }
 
 .orb2{
@@ -72,13 +72,13 @@ h3 { /* setting font color/position */
     position: relative;
     box-shadow:
         inset 0 0 50px #fff,
-        inset 20px 0 60px violet,
-        inset -20px 0 60px blue,
-        inset 20px 0 300px violet,
-        inset -20px 0 300px blue,
+        inset 20px 0 60px #6200EE,
+        inset -20px 0 60px rgba(255, 0, 255, 0.591),
+        inset 20px 0 300px #6200EE,
+        inset -20px 0 300px rgba(255, 0, 255, 0.591),
         0 0 50px #fff,
-        -10px 0 60px violet,
-        10px 0 60px blue;
+        -10px 0 60px #6200EE,
+        10px 0 60px rgba(255, 0, 255, 0.591);
 }
 
 .orb3{
@@ -94,13 +94,13 @@ h3 { /* setting font color/position */
     position: relative;
     box-shadow:
         inset 0 0 50px #fff,
-        inset 20px 0 60px violet,
-        inset -20px 0 60px blue,
-        inset 20px 0 300px violet,
-        inset -20px 0 300px blue,
+        inset 20px 0 60px #6200EE,
+        inset -20px 0 60px rgba(255, 0, 255, 0.591),
+        inset 20px 0 300px #6200EE,
+        inset -20px 0 300px rgba(255, 0, 255, 0.591),
         0 0 50px #fff,
-        -10px 0 60px violet,
-        10px 0 60px blue;
+        -10px 0 60px #6200EE,
+        10px 0 60px rgba(255, 0, 255, 0.591);
 }
 
 @keyframes spin { /* creates 'spin' animation */
@@ -400,4 +400,96 @@ h3 { /* setting font color/position */
 #submit_btn:hover{
     background-color: #6200EE;
     cursor: pointer;
+}
+
+
+
+/* styles 'open-playlists' page */
+
+.container_all_open_playlists{
+    display:grid;
+    justify-content: center;
+    grid-template-columns: 1;
+    grid-template-rows: 2;
+    gap: 2rem;
+}
+
+.open_playlists_container{
+    width: 800px;
+    border-radius: 8px;
+    border: 2px solid #6200EE;
+    background: #FFFF;
+    border-radius: 7px;
+    outline: none;
+    left: 50px;
+    grid-column: 1;
+    grid-row: 2;
+    overflow: hidden;
+    max-height: 400px;
+    overflow-y: scroll;
+    
+}
+
+.container_color {
+    filter: blur(15px);
+    position: absolute;
+    justify-content: center;
+    width: 820px;
+    height: 425px;
+    margin-top: 185px;
+    margin-left: 215px;
+    z-index: -2;
+    background-image: radial-gradient(circle farthest-corner at 10% 20%, 
+            rgba(255, 0, 179, 0.605) 17.8%, #6200EE 100.2%);
+}
+
+#title_open_playlist{
+    grid-row: 1;
+    margin-top: 110px;
+    margin-left: 50px
+}   
+
+
+.open_playlists_list_item{
+    position: relative;
+    background-color: #FFFF;
+    margin-top: 15px;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 5px 10px #B3B3B3;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.open_playlists_list_item .item {
+    height: 50px;
+    list-style: none;
+    cursor: pointer;
+    color: #6200EE;
+    transition: 0.5s;
+    padding: 0 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.open_playlists_list_item .item:hover{
+    background-color: #6200EE;
+    color:white;
+}
+
+
+.item .playlists_listed{
+    height: 16px;
+    display: inline-block;
+    align-items:center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid black;
+    transition: all 0.3s ease-in-out;
 }
