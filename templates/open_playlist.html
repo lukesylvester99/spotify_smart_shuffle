@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
+    <!-- Opens playlist that was selected -->
     {% block content %}
 
     <h1>{{playlist_selection}}</h1>
+
+    <ul style="color: white;">
+        {% for track in track_names %}
+            <li>{{track}}</li>
+        {% endfor %}
+    </ul>
 
         {% endblock %}

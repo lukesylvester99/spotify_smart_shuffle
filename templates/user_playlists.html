@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+
+    <!-- User Playlists: shows the entire library of a user -->
     {% block content %}
 <div class="container-all">
     <div class="orb3"></div>
@@ -7,8 +9,8 @@
     <h3 class="user_playlists">Your Playlists Have Been Collected Here</h3>
     <h4 class="user_playlists2">make your selection below....</h4>
     <div class="user_playlists_container">
-        <ul class = 'user_playlists_list_item'>
-            <form method="POST" action="{{ url_for('open_playlist') }}" name="playlist_selection">
+        <ul class = 'user_playlists_list_item'> <!-- form collects user playlist selection for server -->
+            <form method="POST" action="{{ url_for('open_playlist') }}" name="playlist_selection">  
             {% for name in playlist_names %}
             <li class="item">
             <input class = 'playlists_listed' type="checkbox" id="{{name}}" name="playlist_selection" value="{{name}}">

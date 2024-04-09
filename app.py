@@ -3,7 +3,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import time
 import pprint
-import json
 
 
 '''SECTION 1: creating an instance of my Flask application, 
@@ -45,6 +44,7 @@ def get_token():
 
 '''SECTION 3: section for creating the routes of the app'''
 
+'''SECTION 3A: home and about pages'''
 @app.route("/")
 def home(): #home page 
     
@@ -55,20 +55,33 @@ def lets_begin(): #tansition page for orb "roll-out" animation
     
     return render_template("lets_begin.html")
 
-
-@app.route("/search", methods=['POST', "GET"])
-def search(): #spotify user ID page
+@app.route("/about-app")
+def about_app(): #page describes how the application works
     
-    return render_template ("search.html")
+    return render_template("about_app.html")
 
-@app.route("/submit-username", methods=['POST', "GET"])
-def submit_user_name(): #page the the user is routed to after submitting ID
-    name = request.form.get("user_name")
+'''SECTION 3B: control the login-logic of the app. Help direct users to spotify's login and 
+               authentication pages so that they can use the application.'''
+
+@app.route("/login")
+def oauth_user_login(): #using Spotipy package to help direct user to login page
+    auth_url = create_spotify_oauth().get_authorize_url()
     
-    return render_template ("submit_user.html", name=name)
+    return redirect(auth_url)
 
+@app.route("/redirect")
+def redirect_page(): #creating access token for API
+    session.clear()
+    code = request.args.get('code') #auth code included in request paramaters is extracted
+    token_info = create_spotify_oauth().get_access_token(code) #generating token with auth code
+    session[TOKEN_INFO] = token_info #storing token in cookie session
+
+    return redirect(url_for("landing"))
+
+
+'''SECTION 3C: User selects a playlist from their library'''
 @app.route('/user-playlists')
-def landing():
+def landing():#
     try: 
         # get the token info from the session
         token_info = get_token()
@@ -91,28 +104,52 @@ def landing():
 
     return render_template ("user_playlists.html", playlist_names=playlist_names)
 
+
 @app.route("/open-playlist", methods=['POST', "GET"])
 def open_playlist():#opens playlist from "playlist_selection" form
-    playlist_selection = request.form.get("playlist_selection")
+    playlist_selection = request.form.get("playlist_selection") #gather selection from form on previous page
+
+    #see above route for questions:
+    try: 
+        token_info = get_token()
+    except:
+        print('User not logged in')
+        return redirect("/login")
+
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+    current_playlists =  sp.current_user_playlists()['items']
+
+    for playlist in current_playlists:
+        if playlist['name'] == playlist_selection: #if the playlist name is the same as the selection from our form...
+            playlist_id = playlist['id']#get the id element. We need this for 'opening' the playlist in the next step
+
+    if playlist_id: #if we have an id...
+        playlist_elements = sp.playlist_items(playlist_id, fields="items")
+        #"items" is a naming convention that spotipy uses in their dictionary formatting
+        playlist_items = playlist_elements['items'] #"items" hold key:value pairs with info about the tracks
+
+        track_names = [] #list to hold our track names
+        for item in playlist_items: 
+            track_name = item['track']['name'] #get the 'name' element of the dictionary
+            track_names.append(track_name)
+
+    return render_template ("open_playlist.html", playlist_selection=playlist_selection, track_names=track_names)
 
 
-    return render_template ("open_playlist.html", playlist_selection=playlist_selection)
 
 
-@app.route("/login")
-def oauth_user_login(): #using Spotipy package to help direct user to login page
-    auth_url = create_spotify_oauth().get_authorize_url()
+'''!!!! DEAD !!!!'''
+@app.route("/search", methods=['POST', "GET"])
+def search(): #spotify user ID page
     
-    return redirect(auth_url)
+    return render_template ("search.html")
 
-@app.route("/redirect")
-def redirect_page(): #creating access token for API
-    session.clear()
-    code = request.args.get('code') #auth code included in request paramaters is extracted
-    token_info = create_spotify_oauth().get_access_token(code) #generating token with auth code
-    session[TOKEN_INFO] = token_info #storing token in cookie session
-
-    return redirect(url_for("landing"))
+'''!!!! DEAD !!!!'''
+@app.route("/submit-username", methods=['POST', "GET"])
+def submit_user_name(): #page the the user is routed to after submitting ID
+    name = request.form.get("user_name")
+    
+    return render_template ("submit_user.html", name=name)
 
 if __name__ == "__main__":
     app.run(debug = True)
