@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+    <!-- Opens playlist that was selected -->
+    {% block content %}
+
+   {% for track in track_names %}
+    <h3 style="color: white;">{{track}}</h3>
+   {% endfor %}
+        {% endblock %}

@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for, request, session, redirect
-import spotipy 
-from spotipy.oauth2 import SpotifyOAuth
-import time
+import spotipy #helps w/ working w/ spotify api
+from spotipy.oauth2 import SpotifyOAuth #method assists w/ confirming user authorization for app
+import time #for cookies
+import requests #needed to retrieve numbers from random.org
 import pprint
 
 
@@ -41,6 +42,16 @@ def get_token():
         token_info = spotify_oauth.refresh_access_token(token_info['refresh_token'])
         return token_info
     return token_info
+
+#gets a list of random numbers from random.org, using atomospheric noise
+def get_random_nums(song):
+    url = "https://www.random.org/integers/?num=1&min=1&max=1000&col=1&base=10&format=plain&rnd=new"
+    number = requests.get(url)
+
+    number_int = int(number.text)
+    temp_dict = {song:number_int}
+
+    return temp_dict
 
 '''SECTION 3: section for creating the routes of the app'''
 
@@ -133,7 +144,22 @@ def open_playlist():#opens playlist from "playlist_selection" form
             track_name = item['track']['name'] #get the 'name' element of the dictionary
             track_names.append(track_name)
 
+        session['track_names'] = track_names #save to the session so I can get it later
+
     return render_template ("open_playlist.html", playlist_selection=playlist_selection, track_names=track_names)
+
+@app.route("/randomize", methods=['POST', "GET"])
+def randomize():
+    track_names =session.get("track_names") #get track list from session
+    
+    track_number_pairs = {} #initializing a dict to hold out tracks, which have now been assigned a #
+    for track in track_names:
+        result = get_random_nums(track) #call random num generator funct
+        track_number_pairs.update(result)
+        
+
+    return render_template("randomize.html", track_names=track_names)
+    
 
 
 
