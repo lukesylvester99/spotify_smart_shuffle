@@ -454,11 +454,11 @@ h3 { /* setting font color/position */
       #ff5770
     );
     background-size: 200% 200%;
-    animation: animateGlow 3s linear infinite;
+    animation: glow 3s linear infinite;
 }
 
 
-@keyframes animateGlow {
+@keyframes glow {
   0% {
     background-position: 0% 50%;
   }
