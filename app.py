@@ -53,6 +53,30 @@ def get_random_nums(song):
 
     return temp_dict
 
+#merge sort functions
+def merge(left, right):
+    result = []
+    i,j = 0, 0
+    while i<len(left) and j<len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    result += left[i:]
+    result += right[j:]
+    return result
+
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst
+    mid = len(lst)//2
+    left = merge_sort(lst[:mid])
+    right = merge_sort(lst[mid:]) 
+    return merge(left, right)
+
 '''SECTION 3: section for creating the routes of the app'''
 
 '''SECTION 3A: home and about pages'''
@@ -156,7 +180,13 @@ def randomize():
     for track in track_names:
         result = get_random_nums(track) #call random num generator funct
         track_number_pairs.update(result)
-        
+
+    number_list = []
+    for key in track_number_pairs:
+        number_list.append(track_number_pairs[key])
+    
+    sorted_number_list = merge_sort(number_list)
+
 
     return render_template("randomize.html", track_names=track_names)
     
