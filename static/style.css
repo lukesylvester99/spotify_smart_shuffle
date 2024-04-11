@@ -432,14 +432,11 @@ h3 { /* setting font color/position */
 
 .container_color {
     filter: blur(15px);
-    position: absolute;
-    justify-content: center;
     width: 820px;
     height: 425px;
-    margin-top: 185px;
-    margin-left: 215px;
     z-index: -2;
-    
+    grid-column: 1;
+    grid-row: 2;
     transform: scale(1) translateZ(0);
     background-image: linear-gradient(
       to left,
