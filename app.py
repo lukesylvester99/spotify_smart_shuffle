@@ -154,6 +154,7 @@ def open_playlist():#opens playlist from "playlist_selection" form
     sp = spotipy.Spotify(auth=token_info['access_token'])
     current_playlists =  sp.current_user_playlists()['items']
 
+    playlist_id = None #initializing it so that the next "if" statement works
     for playlist in current_playlists:
         if playlist['name'] == playlist_selection: #if the playlist name is the same as the selection from our form...
             playlist_id = playlist['id']#get the id element. We need this for 'opening' the playlist in the next step
