@@ -3,7 +3,18 @@
     <!-- Opens playlist that was selected -->
     {% block content %}
 
-   {% for track in track_names %}
-    <h3 style="color: white;">{{track}}</h3>
-   {% endfor %}
+    <div class="container_all_open_playlists">
+        <h1 id="title_open_playlist">Your Queue is Ready</h1>
+    <div class="container_color"></div>
+        <div class="open_playlists_container">
+            <ul class = 'open_playlists_list_item'>
+                {% for track in track_names %}
+                    <li class="item">
+                    <span type="text">{{track}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
         {% endblock %}

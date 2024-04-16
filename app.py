@@ -139,9 +139,10 @@ def landing():#
 
     return render_template ("user_playlists.html", playlist_names=playlist_names)
 
-
+track_name_id = {} #initializing to hold id of tracks. Needed it to be out of the fxn so that I can access this later in "randomize"
 @app.route("/open-playlist", methods=['POST', "GET"])
 def open_playlist():#opens playlist from "playlist_selection" form
+    track_name_id.clear() #clearing old values from dict
     playlist_selection = request.form.get("playlist_selection") #gather selection from form on previous page
 
     #see above route for questions:
@@ -169,6 +170,9 @@ def open_playlist():#opens playlist from "playlist_selection" form
             track_name = item['track']['name'] #get the 'name' element of the dictionary
             track_names.append(track_name)
 
+            track_id = item['track']['id'] #get the 'id' element of the dictionary
+            track_name_id[track_name] = track_id #creating entry in the "track_name_id" dict
+
         session['track_names'] = track_names #save to the session so I can get it later
 
     return render_template ("open_playlist.html", playlist_selection=playlist_selection, track_names=track_names)
@@ -177,7 +181,7 @@ def open_playlist():#opens playlist from "playlist_selection" form
 def randomize():
     track_names =session.get("track_names") #get track list from session
     
-    track_number_pairs = {} #initializing a dict to hold out tracks, which have now been assigned a #
+    track_number_pairs = {} #initializing a dict to hold our tracks, which have now been assigned a #
     for track in track_names:
         result = get_random_nums(track) #call random num generator funct
         track_number_pairs.update(result)
@@ -188,8 +192,27 @@ def randomize():
     
     sorted_number_list = merge_sort(number_list)
 
+    ordered_tracks = [] #initializing a list to hold re-ordered tracks
+    for number in sorted_number_list: #iterate through sorted num list
+        for song, value in track_number_pairs.items():
+            if value == number and song not in ordered_tracks: #if sorted number is the same as the randomly assigned number and it isnt already added...
+                ordered_tracks.append(song) #Add song to initalized list
+                break
+    try: 
+        token_info = get_token()
+    except:
+        print('User not logged in')
+        return redirect("/login")
 
-    return render_template("randomize.html", track_names=track_names)
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+
+    for song in ordered_tracks:
+        for key, value in track_name_id.items():
+            if key == song:
+                sp.add_to_queue(value, device_id=None)
+
+
+    return render_template("randomize.html", track_names=ordered_tracks)
     
 
 
