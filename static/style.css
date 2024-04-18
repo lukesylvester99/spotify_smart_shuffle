@@ -471,6 +471,9 @@ h3 { /* setting font color/position */
     margin-left: 50px
 }   
 
+.open_playlist_submit{
+    margin-left: 125px;
+}
 
 .open_playlists_list_item{
     position: relative;

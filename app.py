@@ -159,13 +159,14 @@ def open_playlist():#opens playlist from "playlist_selection" form
     for playlist in current_playlists:
         if playlist['name'] == playlist_selection: #if the playlist name is the same as the selection from our form...
             playlist_id = playlist['id']#get the id element. We need this for 'opening' the playlist in the next step
-
+    
+    track_names = [] #list to hold our track names
     if playlist_id: #if we have an id...
         playlist_elements = sp.playlist_items(playlist_id, fields="items")
         #"items" is a naming convention that spotipy uses in their dictionary formatting
         playlist_items = playlist_elements['items'] #"items" hold key:value pairs with info about the tracks
 
-        track_names = [] #list to hold our track names
+        
         for item in playlist_items: 
             track_name = item['track']['name'] #get the 'name' element of the dictionary
             track_names.append(track_name)
