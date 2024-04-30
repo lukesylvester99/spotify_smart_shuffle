@@ -4,6 +4,7 @@ from spotipy.oauth2 import SpotifyOAuth #method assists w/ confirming user autho
 import time #for cookies
 import requests #needed to retrieve numbers from random.org
 import pprint
+from collections import defaultdict
 
 
 '''SECTION 1: creating an instance of my Flask application, 
@@ -25,7 +26,7 @@ def create_spotify_oauth():
         client_id = '103a19efe64d46208a7e965462c668b3',
         client_secret = "0487d4eee354456cbe28e4b2803f0ec7",
         redirect_uri = url_for("redirect_page", _external = True),
-        scope = "user-modify-playback-state user-read-currently-playing user-library-read user-modify-playback-state playlist-read-private")
+        scope = "user-modify-playback-state user-read-currently-playing user-library-read user-modify-playback-state playlist-read-private user-read-playback-state user-read-currently-playing")
 
 #retrieving saved token (from "redirect") from cookie
 def get_token():
@@ -214,6 +215,38 @@ def randomize():
 
 
     return render_template("randomize.html", track_names=ordered_tracks)
+    
+song_frequency = defaultdict(int)  # Dictionary to store song frequencies
+@app.route("/testing", methods=['POST', "GET"])
+def testing():
+    try: 
+        token_info = get_token()
+    except:
+        print('User not logged in')
+        return redirect("/login")
+    
+    sp = spotipy.Spotify(auth=token_info['access_token'])
+    current_queue =  sp.queue()["queue"]
+
+    songs = []
+    for song in current_queue:
+        song_name = song['name']  # Accessing the name of the album correctly
+        songs.append(song_name)
+    
+    print(songs)
+
+    first_10_songs = songs[:10]  # Get the first 10 songs
+    
+    
+    
+    for song in first_10_songs:
+        song_frequency[song] += 1  # Increment the count for each song
+    print()
+    print(song_frequency)
+    
+    return current_queue
+
+    
     
 
 
