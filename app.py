@@ -216,7 +216,11 @@ def randomize():
 
     return render_template("randomize.html", track_names=ordered_tracks)
     
-song_frequency = defaultdict(int)  # Dictionary to store song frequencies
+"""route was used to test the randomness of my algorithm vs the Spotify shuffle algorithm. This route does not actually cause 
+the website to "do" anything, but when the user goes to it, it exectutes the following code. The song_frequency dict is used to hold
+a tally for the amount of times that a certain song is added to the first ten spots of the queue"""
+
+song_frequency = defaultdict(int)  # Dictionary to store song tallys
 @app.route("/testing", methods=['POST', "GET"])
 def testing():
     try: 
@@ -226,28 +230,92 @@ def testing():
         return redirect("/login")
     
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    current_queue =  sp.queue()["queue"]
+    current_queue =  sp.queue()["queue"] #function retrieves a user's active queue
 
-    songs = []
+    songs = [] #itializing a list
     for song in current_queue:
-        song_name = song['name']  # Accessing the name of the album correctly
-        songs.append(song_name)
-    
-    print(songs)
+        song_name = song['name']  # Accessing the name of the song 
+        songs.append(song_name) #save song name to list
 
-    first_10_songs = songs[:10]  # Get the first 10 songs
-    
-    
+    first_10_songs = songs[:10]  # Get the first 10 songs on the queue
     
     for song in first_10_songs:
         song_frequency[song] += 1  # Increment the count for each song
-    print()
-    print(song_frequency)
     
-    return current_queue
+    print(song_frequency)
+
 
     
     
+    return current_queue
+
+"""the "/testing' route was used to tally the amount of times that a song appears in the first 10 tracks of the user's current queue. Ten trials were 
+conducted for both the Fortuna algorithm and the spotify algorith. This same test was done on a playlist 20 songs in length, and then again for a 
+playlist 50 songs in length. The results of each tally are saved here in seperate dictionaries."""
+
+#Experiment 1: 20 song playlist depth
+spotify_20_songs = {'Sweetest Devotion': 7, 'Milk & Honey': 6, 'Atmosphere': 8, 'altar': 8, 'If Only for Tonight': 5, 'Slide Away': 6, 'Party (feat. André 3000)': 7, 'The Dress': 6, 'Always Been U': 5, 'How Deep Is Your Love': 4, 'You Make Me Feel Like Dancing - Remastered': 4, 'Shrike': 4, 'Nobody': 4, 'Pressure': 4, 'Mannequin': 6, 'Indigo': 4, 'Semi Pro': 4, 'A Little Honey': 4, 'Better Days (NEIKED x Mae Muller x Polo G)': 4}
+spotify_num_unique_songs_20 = 0
+spotify_songs_over5_20 = 0
+fortuna_20_songs = {'Atmosphere': 5, 'How Deep Is Your Love': 8, 'Shrike': 4, 'Mannequin': 6, 'I Drink Wine': 6, 'Semi Pro': 5, 'Better Days (NEIKED x Mae Muller x Polo G)': 4, 'Party (feat. André 3000)': 7, 'You Make Me Feel Like Dancing - Remastered': 3, 'Indigo': 7, 'A Little Honey': 4, 'Sweetest Devotion': 3, 'Milk & Honey': 7, 'Always Been U': 7, 'altar': 6, 'The Dress': 5, 'Nobody': 3, 'Slide Away': 3, 'If Only for Tonight': 4, 'Pressure': 3}
+fortuna_num_unique_songs_20 = 0
+fortuna_songs_over5_20 = 0
+
+ #Experiment 2: 50 song playlist depth   
+spotify_50_songs = {'Ur Mum': 3, 'Getting Started': 5, 'Into Your Room': 6, 'Pink Friday Girls': 5, 'Beautiful Things': 2, 'Sunny Countryside': 1, 'Dance For Love': 3, 'Leon': 2, 'Chaise Longue': 2, "TEXAS HOLD 'EM": 2, 'Piece Of Shit': 3, 'Limitless Love': 3, 'The Last One': 5, 'Tangerine': 2, 'Poison Poison': 1, 'Will We Talk?': 3, 'Bells Of Every Chapel [Feat. Billy Strings]': 2, 'Scared To Start': 2, 'Shine': 2, 'After The Earthquake': 3, "When I'm Gone": 3, 'Sadie': 3, 'Cosmos': 3, 'Are You Gone Already': 2, 'Are You Ready to Love Me?': 1, 'Sweet Mariona': 2, 'Stay For A While': 1, 'Sofa King': 1, 'Being In Love': 1, 'I Hope It All Works Out': 2, 'I’m The Best': 2, 'Summertime With U': 2, 'Seventeen Going Under': 2, 'Beep Beep': 1, 'Wet Dream': 2, 'Paper Bag': 3, 'Yes Chef': 1, 'Just The Memories': 2, 'Alabama': 1, 'Before You': 1, 'The Garden - from The Hunger Games: The Ballad of Songbirds & Snakes': 1, 'Next To You': 2, 'No California': 1, 'Bahm Bahm': 1, 'Hey Mama': 1, 'Better Than the Boys': 1}
+spotify_num_unique_songs_50 = 0
+spotify_songs_over4_50 = 0
+fortuna_50_songs = {'Poison Poison': 2, 'Sofa King': 4, 'Just The Memories': 2, "TEXAS HOLD 'EM": 2, 'Tangerine': 4, 'Summertime With U': 2, 'Next To You': 3, 'No California': 3, 'Stay For A While': 2, 'Into Your Room': 3, 'Leon': 2, 'Waterfall': 3, 'Shine': 3, 'Let Me Calm Down (feat. J. Cole)': 1, 'Beautiful Things': 3, 'Yes Chef': 2, 'Bahm Bahm': 2, 'Pink Friday Girls': 2, 'Piece Of Shit': 3, 'After The Earthquake': 3, 'Are You Ready to Love Me?': 2, 'Bells Of Every Chapel [Feat. Billy Strings]': 2, 'Getting Started': 1, 'Limitless Love': 2, 'Sunny Countryside': 3, 'Wet Dream': 3, 'Hey Mama': 2, 'Dance For Love': 1, 'Will We Talk?': 4, 'Seventeen Going Under': 3, 'Chaise Longue': 2, 'Ur Mum': 1, 'The Garden - from The Hunger Games: The Ballad of Songbirds & Snakes': 2, 'Before You': 1, 'Being In Love': 3, 'Sadie': 3, 'Are You Gone Already': 1, 'The Last One': 1, 'Scared To Start': 2, 'Better Than the Boys': 2, 'My Kink Is Karma': 2, 'I Hope It All Works Out': 1, 'I’m The Best': 2, 'Cosmos': 1, 'Paper Bag': 1, 'Beep Beep': 1}
+fortuna_num_unique_songs_50 = 0
+fortuna_songs_over4_50 = 0
+
+for song in spotify_20_songs:
+    spotify_num_unique_songs_20 += 1
+
+for song in fortuna_20_songs:
+    fortuna_num_unique_songs_20 += 1
+
+for song in spotify_50_songs:
+    spotify_num_unique_songs_50 += 1
+
+for song in fortuna_50_songs:
+    fortuna_num_unique_songs_50 += 1
+
+print("20 songs:")
+print(spotify_num_unique_songs_20)
+print(fortuna_num_unique_songs_20)
+
+print()
+print("50 songs:")
+print(spotify_num_unique_songs_50)
+print(fortuna_num_unique_songs_50)
+
+for key, value in spotify_20_songs.items():
+    if spotify_20_songs[key] > 5:
+        spotify_songs_over5_20 += 1
+
+for key, value in fortuna_20_songs.items():
+    if fortuna_20_songs[key] > 5:
+        fortuna_songs_over5_20 += 1
+
+for key, value in spotify_50_songs.items():
+    if spotify_50_songs[key] > 4:
+        spotify_songs_over4_50 += 1
+
+for key, value in fortuna_50_songs.items():
+    if fortuna_50_songs[key] > 4:
+        fortuna_songs_over4_50 += 1
+
+print()
+print("20 songs, over 5:")
+print(spotify_songs_over5_20)
+print(fortuna_songs_over5_20)
+
+print()
+print("50 songs, over 4:")
+print(spotify_songs_over4_50)
+print(fortuna_songs_over4_50)
+
 
 
 
