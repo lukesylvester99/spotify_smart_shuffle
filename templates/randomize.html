@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+    <!-- Opens playlist that was selected -->
+    {% block content %}
+
+    <div class="container_all_open_playlists">
+        <h1 id="title_open_playlist">Fortuna Has Prepared Your Queue</h1>
+    <div class="container_color"></div>
+        <div class="open_playlists_container">
+            <ul class = 'open_playlists_list_item'>
+                {% for track in track_names %}
+                    <li class="item">
+                    <span type="text">{{track}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+        {% endblock %}

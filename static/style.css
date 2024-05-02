@@ -432,14 +432,11 @@ h3 { /* setting font color/position */
 
 .container_color {
     filter: blur(15px);
-    position: absolute;
-    justify-content: center;
     width: 820px;
     height: 425px;
-    margin-top: 185px;
-    margin-left: 215px;
     z-index: -2;
-    
+    grid-column: 1;
+    grid-row: 2;
     transform: scale(1) translateZ(0);
     background-image: linear-gradient(
       to left,
@@ -454,11 +451,11 @@ h3 { /* setting font color/position */
       #ff5770
     );
     background-size: 200% 200%;
-    animation: animateGlow 3s linear infinite;
+    animation: glow 3s linear infinite;
 }
 
 
-@keyframes animateGlow {
+@keyframes glow {
   0% {
     background-position: 0% 50%;
   }
@@ -474,6 +471,9 @@ h3 { /* setting font color/position */
     margin-left: 50px
 }   
 
+.open_playlist_submit{
+    margin-left: 125px;
+}
 
 .open_playlists_list_item{
     position: relative;
