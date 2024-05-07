@@ -80,7 +80,7 @@ def merge_sort(lst):
 
 '''SECTION 3: section for creating the routes of the app'''
 
-'''SECTION 3A: home and about pages'''
+'''SECTION 3A: home pages'''
 @app.route("/")
 def home(): #home page 
     
@@ -91,10 +91,6 @@ def lets_begin(): #tansition page for orb "roll-out" animation
     
     return render_template("lets_begin.html")
 
-@app.route("/about-app")
-def about_app(): #page describes how the application works
-    
-    return render_template("about_app.html")
 
 '''SECTION 3B: control the login-logic of the app. Help direct users to spotify's login and 
                authentication pages so that they can use the application.'''
@@ -140,6 +136,7 @@ def landing():#
 
     return render_template ("user_playlists.html", playlist_names=playlist_names)
 
+'''SECTION 3D: User submits the playlist of their choosing to get run through Fortuna algorithm'''
 track_name_id = {} #initializing to hold id of tracks. Needed it to be out of the fxn so that I can access this later in "randomize"
 @app.route("/open-playlist", methods=['POST', "GET"])
 def open_playlist():#opens playlist from "playlist_selection" form
@@ -215,12 +212,12 @@ def randomize():
 
 
     return render_template("randomize.html", track_names=ordered_tracks)
-    
-"""route was used to test the randomness of my algorithm vs the Spotify shuffle algorithm. This route does not actually cause 
+
+"""SECTION 4: route was used to test the randomness of my algorithm vs the Spotify shuffle algorithm. This route does not actually cause 
 the website to "do" anything, but when the user goes to it, it exectutes the following code. The song_frequency dict is used to hold
 a tally for the amount of times that a certain song is added to the first ten spots of the queue"""
 
-song_frequency = defaultdict(int)  # Dictionary to store song tallys
+song_frequency = defaultdict(int)  # Dictionary to store song tallys, was copied, then cleared after each trial
 @app.route("/testing", methods=['POST', "GET"])
 def testing():
     try: 
@@ -244,94 +241,36 @@ def testing():
     
     print(song_frequency)
 
-
-    
-    
     return current_queue
 
-"""the "/testing' route was used to tally the amount of times that a song appears in the first 10 tracks of the user's current queue. Ten trials were 
-conducted for both the Fortuna algorithm and the spotify algorith. This same test was done on a playlist 20 songs in length, and then again for a 
-playlist 50 songs in length. The results of each tally are saved here in seperate dictionaries."""
+
+
+"""the "/testing' route was used to tally the amount of times that a song appears in the first 10 tracks of the user's current queue.
+The results of that experiment have been saved here in the following variables. 
+
+Ten trials were conducted for both the Fortuna algorithm and the Spotify algorithim. In each trial the two algorithims were used to shuffle
+a playlist 20 songs in length, and then again for a playlists 50 and 100 songs in length. The results of each tally are saved here in seperate dictionaries."""
 
 #Experiment 1: 20 song playlist depth
+#each dict. is a copy of the "Song Frequency" variable, which was manually cleared after each trial
 spotify_20_songs = {'Sweetest Devotion': 7, 'Milk & Honey': 6, 'Atmosphere': 8, 'altar': 8, 'If Only for Tonight': 5, 'Slide Away': 6, 'Party (feat. André 3000)': 7, 'The Dress': 6, 'Always Been U': 5, 'How Deep Is Your Love': 4, 'You Make Me Feel Like Dancing - Remastered': 4, 'Shrike': 4, 'Nobody': 4, 'Pressure': 4, 'Mannequin': 6, 'Indigo': 4, 'Semi Pro': 4, 'A Little Honey': 4, 'Better Days (NEIKED x Mae Muller x Polo G)': 4}
-spotify_num_unique_songs_20 = 0
-spotify_songs_over5_20 = 0
 fortuna_20_songs = {'Atmosphere': 5, 'How Deep Is Your Love': 8, 'Shrike': 4, 'Mannequin': 6, 'I Drink Wine': 6, 'Semi Pro': 5, 'Better Days (NEIKED x Mae Muller x Polo G)': 4, 'Party (feat. André 3000)': 7, 'You Make Me Feel Like Dancing - Remastered': 3, 'Indigo': 7, 'A Little Honey': 4, 'Sweetest Devotion': 3, 'Milk & Honey': 7, 'Always Been U': 7, 'altar': 6, 'The Dress': 5, 'Nobody': 3, 'Slide Away': 3, 'If Only for Tonight': 4, 'Pressure': 3}
-fortuna_num_unique_songs_20 = 0
-fortuna_songs_over5_20 = 0
+
 
  #Experiment 2: 50 song playlist depth   
 spotify_50_songs = {'Ur Mum': 3, 'Getting Started': 5, 'Into Your Room': 6, 'Pink Friday Girls': 5, 'Beautiful Things': 2, 'Sunny Countryside': 1, 'Dance For Love': 3, 'Leon': 2, 'Chaise Longue': 2, "TEXAS HOLD 'EM": 2, 'Piece Of Shit': 3, 'Limitless Love': 3, 'The Last One': 5, 'Tangerine': 2, 'Poison Poison': 1, 'Will We Talk?': 3, 'Bells Of Every Chapel [Feat. Billy Strings]': 2, 'Scared To Start': 2, 'Shine': 2, 'After The Earthquake': 3, "When I'm Gone": 3, 'Sadie': 3, 'Cosmos': 3, 'Are You Gone Already': 2, 'Are You Ready to Love Me?': 1, 'Sweet Mariona': 2, 'Stay For A While': 1, 'Sofa King': 1, 'Being In Love': 1, 'I Hope It All Works Out': 2, 'I’m The Best': 2, 'Summertime With U': 2, 'Seventeen Going Under': 2, 'Beep Beep': 1, 'Wet Dream': 2, 'Paper Bag': 3, 'Yes Chef': 1, 'Just The Memories': 2, 'Alabama': 1, 'Before You': 1, 'The Garden - from The Hunger Games: The Ballad of Songbirds & Snakes': 1, 'Next To You': 2, 'No California': 1, 'Bahm Bahm': 1, 'Hey Mama': 1, 'Better Than the Boys': 1}
-spotify_num_unique_songs_50 = 0
-spotify_songs_over4_50 = 0
 fortuna_50_songs = {'Poison Poison': 2, 'Sofa King': 4, 'Just The Memories': 2, "TEXAS HOLD 'EM": 2, 'Tangerine': 4, 'Summertime With U': 2, 'Next To You': 3, 'No California': 3, 'Stay For A While': 2, 'Into Your Room': 3, 'Leon': 2, 'Waterfall': 3, 'Shine': 3, 'Let Me Calm Down (feat. J. Cole)': 1, 'Beautiful Things': 3, 'Yes Chef': 2, 'Bahm Bahm': 2, 'Pink Friday Girls': 2, 'Piece Of Shit': 3, 'After The Earthquake': 3, 'Are You Ready to Love Me?': 2, 'Bells Of Every Chapel [Feat. Billy Strings]': 2, 'Getting Started': 1, 'Limitless Love': 2, 'Sunny Countryside': 3, 'Wet Dream': 3, 'Hey Mama': 2, 'Dance For Love': 1, 'Will We Talk?': 4, 'Seventeen Going Under': 3, 'Chaise Longue': 2, 'Ur Mum': 1, 'The Garden - from The Hunger Games: The Ballad of Songbirds & Snakes': 2, 'Before You': 1, 'Being In Love': 3, 'Sadie': 3, 'Are You Gone Already': 1, 'The Last One': 1, 'Scared To Start': 2, 'Better Than the Boys': 2, 'My Kink Is Karma': 2, 'I Hope It All Works Out': 1, 'I’m The Best': 2, 'Cosmos': 1, 'Paper Bag': 1, 'Beep Beep': 1}
-fortuna_num_unique_songs_50 = 0
-fortuna_songs_over4_50 = 0
 
-for song in spotify_20_songs:
-    spotify_num_unique_songs_20 += 1
-
-for song in fortuna_20_songs:
-    fortuna_num_unique_songs_20 += 1
-
-for song in spotify_50_songs:
-    spotify_num_unique_songs_50 += 1
-
-for song in fortuna_50_songs:
-    fortuna_num_unique_songs_50 += 1
-
-print("20 songs:")
-print(spotify_num_unique_songs_20)
-print(fortuna_num_unique_songs_20)
-
-print()
-print("50 songs:")
-print(spotify_num_unique_songs_50)
-print(fortuna_num_unique_songs_50)
-
-for key, value in spotify_20_songs.items():
-    if spotify_20_songs[key] > 5:
-        spotify_songs_over5_20 += 1
-
-for key, value in fortuna_20_songs.items():
-    if fortuna_20_songs[key] > 5:
-        fortuna_songs_over5_20 += 1
-
-for key, value in spotify_50_songs.items():
-    if spotify_50_songs[key] > 4:
-        spotify_songs_over4_50 += 1
-
-for key, value in fortuna_50_songs.items():
-    if fortuna_50_songs[key] > 4:
-        fortuna_songs_over4_50 += 1
-
-print()
-print("20 songs, over 5:")
-print(spotify_songs_over5_20)
-print(fortuna_songs_over5_20)
-
-print()
-print("50 songs, over 4:")
-print(spotify_songs_over4_50)
-print(fortuna_songs_over4_50)
+#Condition 3: 100 song playlist depth   
+spotify_100_songs = {'Brightsider': 3, 'Slide Away': 2, 'Everybody Else': 2, 'Atmosphere': 1, 'The Otter': 1, '2 You': 4, 'CUFF IT': 2, 'One of These Days': 1, 'Daylight': 4, 'altar': 2, 'Satellite': 1, 'Night Drive': 2, "That's Where It's At": 1, 'Devils in the Canyon': 2, 'Balenciaga': 1, 'Somehow, Someway': 3, 'If Only for Tonight': 2, 'In Dreams': 2, 'Easy on the Eyes': 2, 'Game Winner - Stadium Version': 1, 'Boardwalk': 2, 'Haines St. Station': 1, 'Honey': 1, "Don't Wanna Be Without Ya": 2, 'BLONDE': 3, 'I Drink Wine': 1, 'Always Been U': 1, 'I Get Up': 1, 'Habit': 1, 'Milk & Honey': 1, 'Black Tame': 2, 'Everybody You Hurt': 2, "You've Really Got A Hold On Me": 1, 'Cherry': 2, "Rome (Wasn't Built In A Day)": 1, 'BROOKLYN': 2, 'Talk It Up': 1, 'Pull It Together': 2, 'Looking At Me Like That': 1, 'Sweetest Devotion': 1, 'Flower Girl': 1, 'Pocket Full Of Gold': 1, 'Late Night Talking': 1, 'Carried Away': 2, 'Love on the Weekend': 2, 'Strawberry Wine': 2, 'The Last of the Honey Bees': 1, 'Cynic': 2, 'The Dress': 2, 'Good Morning': 1, 'Pretty': 1, 'Mannequin': 1, 'Wavelength': 1, 'Indigo': 1, 'Briggs': 1, 'Breaking Myself': 1, 'A Little Honey': 1, 'Mango': 1, 'Hello Beautiful': 1, 'Colors': 1, 'Love You Like That': 1, 'The Kiss Of Venus (Dominic Fike)': 1, 'Liquor Store': 1, 'Oogum Boogum Song': 1, 'Freida': 1, 'Range Rover': 1, 'Pop Game': 1}
+fortuna_100_songs = {'Apple Tree Blues': 1, 'Better Days (NEIKED x Mae Muller x Polo G)': 1, 'Figure It Out': 2, 'Guiding Light': 1, 'I Get Up': 3, 'Party (feat. André 3000)': 1, 'The Last of the Honey Bees': 1, 'Honey': 2, 'Pull It Together': 2, "Rome (Wasn't Built In A Day)": 2, 'BROOKLYN': 2, 'BLONDE': 1, 'Liquor Store': 2, 'CUFF IT': 1, 'Devils in the Canyon': 1, 'In Dreams': 2, 'Everybody Else': 1, 'Atmosphere': 3, 'Shock Flesh': 3, 'Little Freak': 2, 'Milk & Honey': 1, 'Late Night Talking': 1, 'Satan & the Sailor': 2, 'Love You Like That': 2, 'This One': 1, 'Shrike': 1, 'Black Tame': 2, 'Cherry': 1, 'Colors': 2, 'The Dress': 1, 'Balenciaga': 3, 'honey': 2, 'Hello Beautiful': 1, 'The Kiss Of Venus (Dominic Fike)': 2, 'Ride or Die (feat. Foster the People)': 1, 'Dancing On Glass': 3, 'Boardwalk': 2, 'Gonna Get Over You': 3, 'Habit': 1, 'Pocket Full Of Gold': 2, 'Love on the Weekend': 2, 'Always Been U': 2, 'Pop Game': 1, 'All the Time in the World': 1, 'Night Drive': 2, 'Range Rover': 1, 'Wavelength': 2, 'New Religion': 1, 'Satellite': 1, 'Mannequin': 1, 'Haines St. Station': 1, 'Caroline': 1, '2 You': 2, 'Game Winner - Stadium Version': 1, 'Easy on the Eyes': 2, 'One of These Days': 1, 'How Deep Is Your Love': 1, "You've Really Got A Hold On Me": 1, 'Freida': 1, 'Flower Girl': 1, 'Clarity': 1, 'Carried Away': 1, 'Somehow, Someway': 1, 'Spaceship': 1, 'Oogum Boogum Song': 1, 'Somebody': 1}
 
 
+#!!!
+"""All other analysis with this data will be done in the "testing.py" file, which can be found in this same directory """
+#!!!
 
 
-
-'''!!!! DEAD !!!!'''
-@app.route("/search", methods=['POST', "GET"])
-def search(): #spotify user ID page
-    
-    return render_template ("search.html")
-
-'''!!!! DEAD !!!!'''
-@app.route("/submit-username", methods=['POST', "GET"])
-def submit_user_name(): #page the the user is routed to after submitting ID
-    name = request.form.get("user_name")
-    
-    return render_template ("submit_user.html", name=name)
 
 if __name__ == "__main__":
     app.run(debug = True)
