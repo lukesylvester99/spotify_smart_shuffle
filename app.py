@@ -3,7 +3,6 @@ import spotipy #helps w/ working w/ spotify api
 from spotipy.oauth2 import SpotifyOAuth #method assists w/ confirming user authorization for app
 import time #for cookies
 import requests #needed to retrieve numbers from random.org
-import pprint
 from collections import defaultdict
 
 
